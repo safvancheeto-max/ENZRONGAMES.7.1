@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up | Enzron Games</title>
+    <link rel="stylesheet" href="../assets/css/styles.css">
+    <link rel="stylesheet" href="../assets/css/components.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .auth-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .auth-card {
+            width: 100%;
+            max-width: 450px;
+            padding: 50px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 0.8rem;
+            font-family: 'Orbitron', sans-serif;
+            color: var(--text-dim);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 15px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-glass);
+            border-radius: 8px;
+            color: white;
+            outline: none;
+            transition: var(--transition-fast);
+        }
+
+        .form-input:focus {
+            border-color: var(--primary-neon);
+            box-shadow: var(--glow-primary);
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="bg-canvas"></canvas>
+
+    <div class="auth-container">
+        <div class="auth-card glass">
+            <div class="auth-header">
+                <div class="logo mb-4">
+                    <a href="../index.html"><span class="logo-text">ENZRON</span><span
+                            class="logo-accent">GAMES</span></a>
+                </div>
+                <h2>NEW ACCOUNT</h2>
+                <p class="text-muted">Join the elite gaming community</p>
+            </div>
+
+            <form id="signup-form">
+                <div class="form-group">
+                    <label>USERNAME</label>
+                    <input type="text" id="username" class="form-input" required placeholder="Choose a callsign">
+                </div>
+                <div class="form-group">
+                    <label>EMAIL ADDRESS</label>
+                    <input type="email" id="email" class="form-input" required placeholder="name@example.com">
+                </div>
+                <div class="form-group">
+                    <label>PASSWORD</label>
+                    <input type="password" id="password" class="form-input" required placeholder="••••••••">
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100 mt-3">ENLIST NOW</button>
+            </form>
+
+            <div class="mt-5 text-center">
+                <p class="text-dim">Already enlisted? <a href="login.html" class="text-primary">Log In</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="../assets/js/particles.js"></script>
+    <script src="../assets/js/auth.js"></script>
+    <script>
+        document.getElementById('signup-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const user = document.getElementById('username').value;
+            const email = document.getElementById('email').value;
+            const pass = document.getElementById('password').value;
+
+            const result = Auth.signup(user, email, pass);
+            if (result.success) {
+                window.location.href = '../index.html';
+            } else {
+                alert(result.message);
+            }
+        });
+    </script>
+</body>
+
+</html>

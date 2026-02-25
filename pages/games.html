@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Games | Enzron Games</title>
+    <link rel="stylesheet" href="../assets/css/styles.css">
+    <link rel="stylesheet" href="../assets/css/components.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .games-header {
+            padding: 150px 0 60px;
+            text-align: center;
+        }
+
+        .filter-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 50px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 10px 25px;
+            border-radius: 30px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-glass);
+            color: var(--text-dim);
+            cursor: pointer;
+            transition: var(--transition-fast);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.8rem;
+        }
+
+        .filter-btn.active,
+        .filter-btn:hover {
+            background: var(--primary-neon);
+            color: black;
+            box-shadow: var(--glow-primary);
+        }
+
+        .search-container {
+            max-width: 600px;
+            margin: 0 auto 40px;
+            position: relative;
+        }
+
+        .search-container i {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 15px 15px 15px 50px;
+            border-radius: 50px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-glass);
+            color: white;
+            outline: none;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .search-input:focus {
+            border-color: var(--primary-neon);
+            box-shadow: var(--glow-primary);
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="bg-canvas"></canvas>
+
+    <header class="navbar-container">
+        <nav class="navbar container glass">
+            <div class="logo">
+                <a href="../index.html">
+                    <span class="logo-text">ENZRON</span><span class="logo-accent">GAMES</span>
+                </a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="games.html" class="active">Games</a></li>
+                <li><a href="leaderboard.html">Leaderboard</a></li>
+                <li><a href="about.html">About</a></li>
+            </ul>
+            <div class="nav-actions">
+                <button id="theme-toggle" class="icon-btn"><i class="fas fa-moon"></i></button>
+                <div id="auth-nav" class="auth-section">
+                    <!-- Auth UI Injection -->
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container">
+        <section class="games-header">
+            <h1 class="section-title">GAME <span class="text-primary">LIBRARY</span></h1>
+            <p class="section-subtitle">Discover your next favorite challenge from our collection</p>
+        </section>
+
+        <div class="search-container">
+            <i class="fas fa-search"></i>
+            <input type="text" id="game-search" class="search-input" placeholder="Search games...">
+        </div>
+
+        <div class="filter-container">
+            <button class="filter-btn active" data-filter="All">ALL GAMES</button>
+            <button class="filter-btn" data-filter="Action">ACTION</button>
+            <button class="filter-btn" data-filter="Racing">RACING</button>
+            <button class="filter-btn" data-filter="Puzzle">PUZZLE</button>
+            <button class="filter-btn" data-filter="Arcade">ARCADE</button>
+            <button class="filter-btn" data-filter="Shooting">SHOOTING</button>
+            <button class="filter-btn" data-filter="Strategy">STRATEGY</button>
+        </div>
+
+        <div id="games-grid-all" class="games-grid section-padding">
+            <!-- Dynamically populated -->
+        </div>
+    </main>
+
+    <footer class="footer">
+        <!-- Reusing footer content (simplified for brevity) -->
+        <div class="container footer-bottom">
+            <p>&copy; 2026 Enzron Games. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="../assets/js/particles.js"></script>
+    <script src="../assets/js/games.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            renderAllGames();
+
+            // Filter logic
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    renderAllGames(btn.dataset.filter);
+                });
+            });
+
+            // Search logic
+            const searchInput = document.getElementById('game-search');
+            searchInput.addEventListener('input', (e) => {
+                const term = e.target.value.toLowerCase();
+                const filtered = window.GAMES_DATA.filter(g =>
+                    g.title.toLowerCase().includes(term) ||
+                    g.category.toLowerCase().includes(term)
+                );
+                const grid = document.getElementById('games-grid-all');
+                grid.innerHTML = filtered.map(createGameCard).join('');
+            });
+        });
+    </script>
+</body>
+
+</html>

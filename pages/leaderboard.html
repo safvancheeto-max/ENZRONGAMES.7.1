@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaderboard | Enzron Games</title>
+    <link rel="stylesheet" href="../assets/css/styles.css">
+    <link rel="stylesheet" href="../assets/css/components.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .leaderboard-container {
+            padding-top: 150px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .rank-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 10px;
+        }
+
+        .rank-row {
+            transition: var(--transition-fast);
+        }
+
+        .rank-row:hover {
+            transform: scale(1.02);
+        }
+
+        .rank-cell {
+            padding: 20px;
+            background: var(--bg-card);
+        }
+
+        .rank-cell:first-child {
+            border-radius: 12px 0 0 12px;
+            font-weight: 800;
+            color: var(--primary-neon);
+        }
+
+        .rank-cell:last-child {
+            border-radius: 0 12px 12px 0;
+            text-align: right;
+        }
+
+        .top-three {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            gap: 30px;
+            margin-bottom: 80px;
+            padding-top: 50px;
+        }
+
+        .podium-item {
+            text-align: center;
+            width: 150px;
+        }
+
+        .podium-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            border: 4px solid var(--border-glass);
+            position: relative;
+        }
+
+        .podium-rank {
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            background: var(--bg-dark);
+        }
+
+        .rank-1 .podium-avatar {
+            border-color: #ffd700;
+            width: 130px;
+            height: 130px;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.4);
+        }
+
+        .rank-1 .podium-rank {
+            background: #ffd700;
+            color: #000;
+        }
+
+        .rank-2 .podium-avatar {
+            border-color: #c0c0c0;
+        }
+
+        .rank-2 .podium-rank {
+            background: #c0c0c0;
+            color: #000;
+        }
+
+        .rank-3 .podium-avatar {
+            border-color: #cd7f32;
+        }
+
+        .rank-3 .podium-rank {
+            background: #cd7f32;
+            color: #000;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="bg-canvas"></canvas>
+
+    <header class="navbar-container">
+        <nav class="navbar container glass">
+            <div class="logo">
+                <a href="../index.html"><span class="logo-text">ENZRON</span><span class="logo-accent">GAMES</span></a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="games.html">Games</a></li>
+                <li><a href="leaderboard.html" class="active">Leaderboard</a></li>
+                <li><a href="about.html">About</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container leaderboard-container">
+        <div class="section-header">
+            <h1 class="section-title">GLOBAL <span class="text-primary">HALL OF FAME</span></h1>
+            <p class="section-subtitle">Top performers across all dimensions</p>
+        </div>
+
+        <div class="top-three">
+            <div class="podium-item rank-2">
+                <div class="podium-avatar glass"><i class="fas fa-user fa-3x" style="margin-top:25px"></i>
+                    <div class="podium-rank">2</div>
+                </div>
+                <h4>ShadowGhost</h4>
+                <p class="text-primary">85,200 pts</p>
+            </div>
+            <div class="podium-item rank-1">
+                <div class="podium-avatar glass"><i class="fas fa-user fa-4x" style="margin-top:30px"></i>
+                    <div class="podium-rank">1</div>
+                </div>
+                <h4>NeonKing</h4>
+                <p class="text-primary">98,540 pts</p>
+            </div>
+            <div class="podium-item rank-3">
+                <div class="podium-avatar glass"><i class="fas fa-user fa-3x" style="margin-top:25px"></i>
+                    <div class="podium-rank">3</div>
+                </div>
+                <h4>PixelWiz</h4>
+                <p class="text-primary">72,100 pts</p>
+            </div>
+        </div>
+
+        <table class="rank-table">
+            <tbody id="leaderboard-body">
+                <!-- Data rows -->
+            </tbody>
+        </table>
+    </main>
+
+    <script src="../assets/js/particles.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const body = document.getElementById('leaderboard-body');
+            const mockData = [
+                { rank: 4, name: "StormBreaker", game: "Cyber Strike", score: "65,400" },
+                { rank: 5, name: "ViperX", game: "Neon Racer", score: "61,200" },
+                { rank: 6, name: "ZenMaster", game: "Logic Maze", score: "59,800" },
+                { rank: 7, name: "BlastKing", game: "Blast Arena", score: "55,000" },
+                { rank: 8, name: "RacerOne", game: "Speed Drift", score: "52,400" },
+                { rank: 9, name: "SniperPro", game: "Sniper Elite", score: "49,900" },
+                { rank: 10, name: "QuestLover", game: "Pixel Quest", score: "45,000" }
+            ];
+
+            // Mix with localStorage scores if any
+            const globalLead = JSON.parse(localStorage.getItem('global_leaderboard')) || [];
+
+            body.innerHTML = mockData.map(row => `
+                <tr class="rank-row">
+                    <td class="rank-cell">#${row.rank}</td>
+                    <td class="rank-cell"><strong>${row.name}</strong></td>
+                    <td class="rank-cell text-muted">${row.game}</td>
+                    <td class="rank-cell text-primary"><strong>${row.score}</strong></td>
+                </tr>
+            `).join('');
+        });
+    </script>
+</body>
+
+</html>

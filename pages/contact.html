@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us | Enzron Games</title>
+    <link rel="stylesheet" href="../assets/css/styles.css">
+    <link rel="stylesheet" href="../assets/css/components.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 50px;
+            padding-top: 150px;
+            padding-bottom: 100px;
+        }
+
+        .contact-info-cards {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .info-item {
+            padding: 30px;
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+        }
+
+        .info-item i {
+            color: var(--primary-neon);
+            font-size: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 15px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-glass);
+            border-radius: 8px;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="bg-canvas"></canvas>
+    <header class="navbar-container">
+        <nav class="navbar container glass">
+            <div class="logo"><a href="../index.html"><span class="logo-text">ENZRON</span><span
+                        class="logo-accent">GAMES</span></a></div>
+        </nav>
+    </header>
+
+    <main class="container contact-grid">
+        <div class="contact-info">
+            <h1 class="heading-font mb-4">GET IN <span class="text-primary">TOUCH</span></h1>
+            <p class="text-dim mb-5">Have a question or feedback? Our support team is active 24/7 to help you out.</p>
+
+            <div class="contact-info-cards">
+                <div class="glass info-item">
+                    <i class="fas fa-envelope"></i>
+                    <div>
+                        <h4>EMAIL SUPPORT</h4>
+                        <p class="text-muted">support@enzrongames.com</p>
+                    </div>
+                </div>
+                <div class="glass info-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <div>
+                        <h4>HEADQUARTERS</h4>
+                        <p class="text-muted">Cyber Street 101, Neo City, Earth</p>
+                    </div>
+                </div>
+                <div class="glass info-item">
+                    <i class="fas fa-phone"></i>
+                    <div>
+                        <h4>CALL US</h4>
+                        <p class="text-muted">+1 (555) 000-ENZRON</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="glass" style="padding: 50px;">
+            <form>
+                <div class="d-flex gap-3 mb-4">
+                    <div class="form-group flex-fill">
+                        <label class="text-muted mb-2 d-block small">YOUR NAME</label>
+                        <input type="text" class="form-input" placeholder="John Doe">
+                    </div>
+                    <div class="form-group flex-fill">
+                        <label class="text-muted mb-2 d-block small">EMAIL</label>
+                        <input type="email" class="form-input" placeholder="john@example.com">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="text-muted mb-2 d-block small">SUBJECT</label>
+                    <input type="text" class="form-input" placeholder="Game Support">
+                </div>
+                <div class="form-group">
+                    <label class="text-muted mb-2 d-block small">MESSAGE</label>
+                    <textarea class="form-input" rows="6" placeholder="How can we help?"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary w-100">SEND ENQUIRY</button>
+            </form>
+        </div>
+    </main>
+
+    <script src="../assets/js/particles.js"></script>
+</body>
+
+</html>

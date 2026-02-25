@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile | Enzron Games</title>
+    <link rel="stylesheet" href="../assets/css/styles.css">
+    <link rel="stylesheet" href="../assets/css/components.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .profile-header {
+            padding-top: 150px;
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 50px;
+            margin-bottom: 60px;
+        }
+
+        .profile-avatar-wrap {
+            position: relative;
+            text-align: center;
+        }
+
+        .profile-avatar {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            border: 4px solid var(--primary-neon);
+            box-shadow: var(--glow-primary);
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--bg-card);
+        }
+
+        .level-badge {
+            position: absolute;
+            bottom: 10px;
+            right: 20px;
+            background: var(--secondary-neon);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .xp-bar-container {
+            width: 100%;
+            height: 12px;
+            background: var(--bg-card);
+            border-radius: 10px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        .xp-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-neon), var(--secondary-neon));
+            width: 65%;
+            box-shadow: var(--glow-primary);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .badge-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .badge-item {
+            text-align: center;
+            opacity: 0.5;
+            transition: var(--transition-fast);
+        }
+
+        .badge-item.earned {
+            opacity: 1;
+            color: var(--primary-neon);
+        }
+
+        .badge-icon {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="bg-canvas"></canvas>
+
+    <header class="navbar-container">
+        <nav class="navbar container glass">
+            <div class="logo">
+                <a href="../index.html"><span class="logo-text">ENZRON</span><span class="logo-accent">GAMES</span></a>
+            </div>
+            <div class="nav-actions">
+                <a href="../index.html" class="btn btn-outline small">HOME</a>
+                <button onclick="Auth.logout()" class="btn btn-primary small">LOGOUT</button>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container">
+        <section class="profile-header">
+            <div class="profile-avatar-wrap">
+                <div class="profile-avatar">
+                    <i class="fas fa-user fa-6x"></i>
+                </div>
+                <div class="level-badge">LVL <span id="user-level">12</span></div>
+            </div>
+            <div class="profile-info">
+                <h1 id="user-name-display" class="heading-font">PLAYER_PRO</h1>
+                <p class="text-dim">Member since: <span id="joined-date">Feb 2026</span></p>
+
+                <div class="xp-section mt-4">
+                    <div class="d-flex justify-content-between">
+                        <span>XP PROGRESS</span>
+                        <span class="text-primary">4500 / 6000 XP</span>
+                    </div>
+                    <div class="xp-bar-container">
+                        <div class="xp-bar-fill"></div>
+                    </div>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="glass info-card text-center">
+                        <h4>GAMES PLAYED</h4>
+                        <div class="score-display">124</div>
+                    </div>
+                    <div class="glass info-card text-center">
+                        <h4>HIGH SCORE</h4>
+                        <div class="score-display">12,500</div>
+                    </div>
+                    <div class="glass info-card text-center">
+                        <h4>ACHIEVEMENTS</h4>
+                        <div class="score-display">15</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="achievements section-padding">
+            <h2 class="section-title">BADGE <span class="text-primary">COLLECTION</span></h2>
+            <div class="badge-grid mt-5">
+                <div class="badge-item earned">
+                    <div class="badge-icon"><i class="fas fa-seedling"></i></div>
+                    <span>Newbie</span>
+                </div>
+                <div class="badge-item earned">
+                    <div class="badge-icon"><i class="fas fa-fire"></i></div>
+                    <span>Striker</span>
+                </div>
+                <div class="badge-item earned">
+                    <div class="badge-icon"><i class="fas fa-bolt"></i></div>
+                    <span>Quickshot</span>
+                </div>
+                <div class="badge-item earned">
+                    <div class="badge-icon"><i class="fas fa-shield-alt"></i></div>
+                    <span>Defender</span>
+                </div>
+                <div class="badge-item">
+                    <div class="badge-icon"><i class="fas fa-crown"></i></div>
+                    <span>Legend</span>
+                </div>
+                <div class="badge-item">
+                    <div class="badge-icon"><i class="fas fa-gem"></i></div>
+                    <span>Collector</span>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="../assets/js/particles.js"></script>
+    <script src="../assets/js/auth.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const user = Auth.getCurrentUser();
+            if (!user) {
+                window.location.href = 'login.html';
+                return;
+            }
+            document.getElementById('user-name-display').innerText = user.username.toUpperCase();
+            document.getElementById('user-level').innerText = user.level || '1';
+            document.getElementById('joined-date').innerText = user.joinedDate || 'Today';
+        });
+    </script>
+</body>
+
+</html>

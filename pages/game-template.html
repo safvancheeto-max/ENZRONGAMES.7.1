@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Playing - Enzron Games</title>
+    <link rel="stylesheet" href="../assets/css/styles.css">
+    <link rel="stylesheet" href="../assets/css/components.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .game-viewport {
+            padding-top: 120px;
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 30px;
+            min-height: calc(100vh - 100px);
+        }
+
+        .game-display {
+            background: #000;
+            border-radius: 20px;
+            border: 2px solid var(--primary-neon);
+            box-shadow: var(--glow-primary);
+            position: relative;
+            overflow: hidden;
+            aspect-ratio: 16/9;
+        }
+
+        .game-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-dim);
+            text-align: center;
+        }
+
+        .game-sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .info-card {
+            padding: 25px;
+        }
+
+        .score-display {
+            font-size: 2.5rem;
+            font-family: 'Orbitron', sans-serif;
+            color: var(--primary-neon);
+            text-align: center;
+            margin: 10px 0;
+        }
+
+        .controls-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .control-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .control-key {
+            padding: 5px 10px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-glass);
+            border-radius: 4px;
+            color: var(--text-main);
+        }
+
+        /* Game Over Modal */
+        #game-over-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+        }
+
+        .modal-content {
+            width: 90%;
+            max-width: 500px;
+            padding: 50px;
+            text-align: center;
+        }
+
+        .modal-title {
+            color: var(--accent-neon);
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .reward-badge {
+            font-size: 4rem;
+            color: #ffcc00;
+            margin: 20px 0;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+
+            0%,
+            100% {
+                transform: translateY(0) scale(1.1);
+            }
+
+            50% {
+                transform: translateY(-20px) scale(1.2);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="bg-canvas"></canvas>
+
+    <header class="navbar-container">
+        <nav class="navbar container glass">
+            <div class="logo">
+                <a href="../index.html">
+                    <span class="logo-text">ENZRON</span><span class="logo-accent">GAMES</span>
+                </a>
+            </div>
+            <div class="game-meta-nav">
+                <span id="playing-title" class="heading-font">LOADING...</span>
+            </div>
+            <div class="nav-actions">
+                <button id="sound-toggle" class="icon-btn"><i class="fas fa-volume-up"></i></button>
+                <a href="games.html" class="btn btn-outline small">EXIT</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container game-viewport">
+        <div class="game-area">
+            <div class="game-display">
+                <div class="game-placeholder">
+                    <i class="fas fa-gamepad fa-4x mb-4"></i>
+                    <h2 id="game-name-display">INITIALIZING...</h2>
+                    <p>Press START to begin your mission</p>
+                    <button class="btn btn-primary lg mt-4" onclick="startGame()">START GAME</button>
+
+                    <div class="ad-placeholder mt-5">
+                        <div class="ad-banner-mock">Pre-roll Ad Placeholder</div>
+                    </div>
+                </div>
+                <!-- This is where the actual game iframe/canvas would go -->
+            </div>
+
+            <div class="game-details mt-5">
+                <div class="glass info-card">
+                    <h3>ABOUT THIS GAME</h3>
+                    <p id="game-desc">Experience the rush of virtual competition in this high-performance web game.
+                        Master the mechanics and climb the leaderboard.</p>
+                </div>
+            </div>
+        </div>
+
+        <aside class="game-sidebar">
+            <div class="glass info-card text-center">
+                <h4>YOUR SCORE</h4>
+                <div id="current-score" class="score-display">0</div>
+                <p class="text-muted">Personal Best: <span id="high-score">0</span></p>
+            </div>
+
+            <div class="glass info-card">
+                <h4>CONTROLS</h4>
+                <div class="controls-grid">
+                    <div class="control-item">
+                        <span class="control-key">W / ↑</span> <span>Move Up</span>
+                    </div>
+                    <div class="control-item">
+                        <span class="control-key">S / ↓</span> <span>Move Down</span>
+                    </div>
+                    <div class="control-item">
+                        <span class="control-key">A / ←</span> <span>Move Left</span>
+                    </div>
+                    <div class="control-item">
+                        <span class="control-key">D / →</span> <span>Move Right</span>
+                    </div>
+                    <div class="control-item">
+                        <span class="control-key">SPACE</span> <span>Action</span>
+                    </div>
+                    <div class="control-item">
+                        <span class="control-key">ESC</span> <span>Pause</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="glass info-card">
+                <h4>TOP PLAYERS</h4>
+                <ul id="mini-leaderboard" class="mt-3">
+                    <!-- Loaded from storage -->
+                </ul>
+            </div>
+        </aside>
+    </main>
+
+    <div id="game-over-modal">
+        <div class="modal-content glass">
+            <h2 class="modal-title">GAME OVER</h2>
+            <div class="reward-badge"><i class="fas fa-award"></i></div>
+            <p>FINAL SCORE</p>
+            <div id="final-score" class="score-display">0</div>
+            <p class="mb-4">You've earned <span class="text-primary">+50 XP</span></p>
+            <div class="modal-actions d-flex gap-3 justify-content-center">
+                <button class="btn btn-primary" onclick="location.reload()">TRY AGAIN</button>
+                <a href="leaderboard.html" class="btn btn-outline">LEADERBOARD</a>
+            </div>
+        </div>
+        <script src="../assets/js/particles.js"></script>
+        <script src="../assets/js/games.js"></script>
+        <script>
+            let gameObj;
+            let score = 0;
+            let isGameRunning = false;
+
+            function getGameId() {
+                const params = new URLSearchParams(window.location.search);
+                return parseInt(params.get('id')) || 1;
+            }
+
+            async function initGamePage() {
+                const gameId = getGameId();
+                const game = window.GAMES_DATA.find(g => g.id === gameId);
+                if (game) {
+                    document.getElementById('playing-title').innerText = game.title;
+                    document.getElementById('game-name-display').innerText = game.title;
+                    document.title = `${game.title} - Enzron Games`;
+
+                    // Get local high score
+                    const scores = JSON.parse(localStorage.getItem(`scores_${gameId}`)) || [];
+                    const best = scores.length > 0 ? Math.max(...scores) : 0;
+                    document.getElementById('high-score').innerText = best;
+
+                    // Load Game Script
+                    if (game.path) {
+                        try {
+                            const script = document.createElement('script');
+                            script.src = `../${game.path}`;
+                            script.onload = () => console.log(`${game.title} script loaded`);
+                            document.body.appendChild(script);
+                        } catch (e) {
+                            console.error("Failed to load game script", e);
+                        }
+                    }
+                }
+            }
+
+            function startGame() {
+                const viewport = document.querySelector('.game-placeholder');
+                viewport.innerHTML = '<canvas id="game-canvas" width="800" height="450"></canvas>';
+
+                isGameRunning = true;
+                score = 0;
+                document.getElementById('current-score').innerText = score;
+
+                // Trigger game-specific start if available
+                if (window.initCurrentGame) {
+                    window.initCurrentGame('game-canvas', onScoreUpdate, onGameOver);
+                } else {
+                    // Fallback / Placeholder logic
+                    viewport.innerHTML += `<div class="mt-4"><h3 class="animate-pulse">SIMULATING ${document.getElementById('playing-title').innerText}...</h3><button class="btn btn-outline small mt-3" onclick="onGameOver(Math.floor(Math.random()*1000))">FINISH MISSION</button></div>`;
+                }
+            }
+
+            function onScoreUpdate(newScore) {
+                score = newScore;
+                document.getElementById('current-score').innerText = score;
+            }
+
+            function onGameOver(finalScore) {
+                isGameRunning = false;
+                document.getElementById('final-score').innerText = finalScore;
+                document.getElementById('game-over-modal').style.display = 'flex';
+
+                // Save score
+                const gameId = getGameId();
+                let scores = JSON.parse(localStorage.getItem(`scores_${gameId}`)) || [];
+                scores.push(finalScore);
+                localStorage.setItem(`scores_${gameId}`, JSON.stringify(scores));
+
+                // Update global leaderboard
+                let user = JSON.parse(localStorage.getItem('currentUser'))?.username || 'Guest';
+                let globalLead = JSON.parse(localStorage.getItem('global_leaderboard')) || [];
+                globalLead.push({
+                    user: user,
+                    game: document.getElementById('playing-title').innerText,
+                    score: finalScore,
+                    date: new Date().toLocaleDateString()
+                });
+                localStorage.setItem('global_leaderboard', JSON.stringify(globalLead.sort((a, b) => b.score - a.score).slice(0, 50)));
+            }
+
+            document.getElementById('sound-toggle').addEventListener('click', function () {
+                const icon = this.querySelector('i');
+                icon.classList.toggle('fa-volume-up');
+                icon.classList.toggle('fa-volume-mute');
+            });
+
+            document.addEventListener('DOMContentLoaded', initGamePage);
+        </script>
+</body>
+
+</html>
