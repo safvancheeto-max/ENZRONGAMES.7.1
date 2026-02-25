@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Enzron Games - The ultimate e-gaming web platform for modern gamers. Access 30+ mini games, track scores, and climb the leaderboard.">
+    <meta name="keywords" content="gaming, e-gaming, mini games, web games, leaderboard, online games">
+    <title>Enzron Games | Elevate Your Gaming Experience</title>
+
+    <!-- Favicon placeholder -->
+    <link rel="icon" type="image/svg+xml"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎮</text></svg>">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <canvas id="bg-canvas"></canvas>
+
+    <header class="navbar-container">
+        <nav class="navbar container glass">
+            <div class="logo">
+                <a href="index.html">
+                    <span class="logo-text">ENZRON</span><span class="logo-accent">GAMES</span>
+                </a>
+            </div>
+
+            <ul class="nav-links">
+                <li><a href="index.html" class="active">Home</a></li>
+                <li><a href="pages/games.html">Games</a></li>
+                <li><a href="pages/leaderboard.html">Leaderboard</a></li>
+                <li><a href="pages/about.html">About</a></li>
+            </ul>
+
+            <div class="nav-actions">
+                <button id="theme-toggle" class="icon-btn"><i class="fas fa-moon"></i></button>
+                <div id="auth-nav" class="auth-section">
+                    <a href="pages/login.html" class="btn btn-outline small">Login</a>
+                    <a href="pages/signup.html" class="btn btn-primary small">Join Now</a>
+                </div>
+            </div>
+
+            <div class="mobile-menu-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero container">
+            <div class="hero-content">
+                <h1 class="hero-title animate-text">NEXT GEN <br><span class="gradient-text">GAMING POWER</span></h1>
+                <p class="hero-description reveal-anim">Experience over 30+ premium mini-games with instant play,
+                    real-time leaderboards, and a global community.</p>
+                <div class="hero-btns reveal-anim">
+                    <a href="pages/games.html" class="btn btn-primary lg">PLAY NOW <i class="fas fa-rocket"></i></a>
+                    <a href="pages/games.html" class="btn btn-outline lg">BROWSE GAMES</a>
+                </div>
+                <div class="hero-stats reveal-anim">
+                    <div class="stat-item">
+                        <span class="stat-number">30+</span>
+                        <span class="stat-label">GAMES</span>
+                    </div>
+                    <div class="stat-divider"></div>
+                    <div class="stat-item">
+                        <span class="stat-number">10K+</span>
+                        <span class="stat-label">PLAYERS</span>
+                    </div>
+                    <div class="stat-divider"></div>
+                    <div class="stat-item">
+                        <span class="stat-number">100+</span>
+                        <span class="stat-label">BADGES</span>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-image-wrap">
+                <div class="hero-glow"></div>
+                <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&q=80&w=800"
+                    alt="Gaming Setup" class="hero-img floating">
+            </div>
+        </section>
+
+        <!-- Category Section -->
+        <section class="categories container section-padding">
+            <div class="section-header">
+                <h2 class="section-title">CHOOSE YOUR <span class="text-primary">STYLE</span></h2>
+                <p class="section-subtitle">Explore our diverse library across various genres</p>
+            </div>
+            <div class="category-grid">
+                <div class="category-card glass">
+                    <i class="fas fa-fire"></i>
+                    <h3>Action</h3>
+                    <p>High octane challenges</p>
+                </div>
+                <div class="category-card glass">
+                    <i class="fas fa-car"></i>
+                    <h3>Racing</h3>
+                    <p>Speed through tracks</p>
+                </div>
+                <div class="category-card glass">
+                    <i class="fas fa-brain"></i>
+                    <h3>Puzzle</h3>
+                    <p>Mind bending logics</p>
+                </div>
+                <div class="category-card glass">
+                    <i class="fas fa-gamepad"></i>
+                    <h3>Arcade</h3>
+                    <p>Classic fun vibes</p>
+                </div>
+                <div class="category-card glass">
+                    <i class="fas fa-crosshairs"></i>
+                    <h3>Shooting</h3>
+                    <p>Precision and reflex</p>
+                </div>
+                <div class="category-card glass">
+                    <i class="fas fa-chess-knight"></i>
+                    <h3>Strategy</h3>
+                    <p>Plan your victory</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Featured Games -->
+        <section class="featured-games container section-padding">
+            <div class="section-header">
+                <h2 class="section-title">TRENDING <span class="text-accent">NOW</span></h2>
+                <div class="header-actions">
+                    <a href="pages/games.html" class="view-all">View All <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+            <div id="featured-grid" class="games-grid">
+                <!-- Dynamically populated -->
+            </div>
+        </section>
+
+        <!-- Newsletter / Join Section -->
+        <section class="join-banner container">
+            <div class="banner-content glass">
+                <h2>READY TO CLIMB THE RANKS?</h2>
+                <p>Create an account to save your progress, earn achievements, and compete on global leaderboards.</p>
+                <div class="banner-actions">
+                    <a href="pages/signup.html" class="btn btn-primary">CREATE FREE ACCOUNT</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container footer-grid">
+            <div class="footer-brand">
+                <div class="logo">
+                    <span class="logo-text">ENZRON</span><span class="logo-accent">GAMES</span>
+                </div>
+                <p>The next generation e-gaming platform for developers and gamers alike. Play, compete, and evolve.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-discord"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            <div class="footer-links">
+                <h4>QUICK LINKS</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="pages/games.html">Games</a></li>
+                    <li><a href="pages/leaderboard.html">Leaderboard</a></li>
+                    <li><a href="pages/about.html">About US</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>SUPPORT</h4>
+                <ul>
+                    <li><a href="pages/faq.html">FAQ</a></li>
+                    <li><a href="pages/contact.html">Contact Us</a></li>
+                    <li><a href="pages/privacy.html">Privacy Policy</a></li>
+                    <li><a href="pages/terms.html">Terms of Service</a></li>
+                </ul>
+            </div>
+            <div class="footer-newsletter">
+                <h4>NEWSLETTER</h4>
+                <p>Stay updated with new game releases.</p>
+                <form class="newsletter-form">
+                    <input type="email" placeholder="Enter your email" class="glass">
+                    <button type="submit" class="btn btn-primary small">JOIN</button>
+                </form>
+            </div>
+        </div>
+        <div class="footer-bottom container">
+            <p>&copy; 2026 Enzron Games. All rights reserved.</p>
+            <div class="footer-ads-placeholder AdSense-compliant">
+                <!-- AdSense Placeholder -->
+                <div class="ad-banner-mock">Advertisement</div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="assets/js/particles.js"></script>
+    <script src="assets/js/ui.js"></script>
+    <script src="assets/js/auth.js"></script>
+    <script src="assets/js/games.js"></script>
+    <script src="assets/js/main.js"></script>
+</body>
+
+</html>
